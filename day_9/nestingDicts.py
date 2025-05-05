@@ -17,3 +17,9 @@ travel_log = {
 
 print(travel_log["France"]["total_visits"]) 
 print(travel_log["Germany"]["cities_visited"][2])
+
+
+my_dict = {"a": 1, "b": 2}
+my_dict["c"] = 3
+print(my_dict)
+# Expected output: {'a': 1, 'b': 2, 'c': 3}

@@ -1,5 +1,5 @@
 import random
-import art 
+import day_14.higher_lower_game.art as art 
 # cards in a deck: A 1 2 3 4 5 6 7 8 9 10 J Q K 
 # J Q K = 10 each
 # A = 1 or 11
