@@ -1,6 +1,8 @@
 from data import data_list
 from art import *
 import os
+
+
 import random
 
 # data_list[i] = indexes each entry with (username, name, followers, profession, and country)
@@ -19,7 +21,6 @@ def reveal_followers(a, b):
 
 def check_answer(a, b, user):
     higher_follower = a if float(a['followers']) >= float(b['followers']) else b
-
     if user in str(higher_follower['name']):
         print("~~~~CORRECT~~~~")
         reveal_followers(a,b)
@@ -37,16 +38,21 @@ while (active) :
     a = random.choice(data_list) # select person a
     b = random.choice(data_list) # select person b
     #higher_follower = a if a['followers'] > b['followers'] else b
-
-    user = input(f"Who has more followers?...\n\n {a['name']}, {a['profession']}\n\tOR\n {b['name']}, {b['profession']}\n\n...")
+    
+    score = 0
+    print('Score: ' + str(score))
+    user = input(f"Who has more followers?...\n\n {a['name']}, {a['profession']} from {a['country']}\n\tOR\n {b['name']}, {b['profession']} from {a['country']}\n\n...")
     higher_followercount = a if float(a['followers']) >= float(b['followers']) else b
+    
     is_correct = check_answer(a, b, user)
     while (is_correct) :
-
+        os.system('cls' if os.name == 'nt' else 'clear')
+        score += 1
+        print('CORRECT')
         a = higher_followercount
         b = random.choice(data_list)
         higher_followercount = a if float(a['followers']) >= float(b['followers']) else b
-
+        print('Score: ' + str(score))
         user = input(f"\n\nWho has more followers?...\n\n {a['name']}, {a['profession']}\n\tOR\n {b['name']}, {b['profession']}\n\n...")
         is_correct = check_answer(a, b, user)
 
@@ -55,3 +61,5 @@ while (active) :
     #print(higher_follower)
 
     active = False
+
+print("Final Score: " + str(score))
