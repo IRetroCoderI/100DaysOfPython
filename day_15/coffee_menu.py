@@ -1,10 +1,10 @@
 from coffee_machine import coffee_machine
 
-def print_menu(): 
+def print_menu(): # DONE
     print("What would you like?")
-    print("1 ~~ Espresso")
-    print("2 ~~ Latte")
-    print("3 ~~ Cappuccino")
+    print("1 ~~ Espresso, $1.50")
+    print("2 ~~ Latte, $2.50")
+    print("3 ~~ Cappuccino, $3.00")
 
 def confirm_transaction(customer_payment, drink_choice):
     coffee_price = coffee_machine['flavors'][drink_choice]['price']
@@ -21,7 +21,7 @@ def confirm_transaction(customer_payment, drink_choice):
         coffee_machine['resources']['money'] += coffee_price
         return True
     
-def make_coffee(drink_choice):
+def make_coffee(drink_choice): # DONE
     coffee_machine['resources']['water'] -= coffee_machine['flavors'][drink_choice]['water']
     coffee_machine['resources']['milk'] -= coffee_machine['flavors'][drink_choice]['milk']
     coffee_machine['resources']['coffee'] -= coffee_machine['flavors'][drink_choice]['coffee']
@@ -30,7 +30,7 @@ def make_coffee(drink_choice):
 
 
 
-def insert_coins():
+def insert_coins(): # DONE
     quarters = int(input('Insert quarters: '))
     dimes = int(input('Insert dimes: '))
     nickels = int(input('Insert nickels: '))
@@ -41,14 +41,14 @@ def insert_coins():
     return customer_total
 
 
-def report():
+def report(): # COMPLETED
     print('Report: ')
     print('\tWater: ' + str(coffee_machine['resources']['water']))
     print('\tMilk: ' + str(coffee_machine['resources']['milk']))
     print('\tCoffee: ' + str(coffee_machine['resources']['coffee']))
     print('\tMoney: ' + str(coffee_machine['resources']['money']))
 
-def sufficient_resources(drink_choice):
+def sufficient_resources(drink_choice): # COMPLETED
     # check water
     # check milk
     # check coffee
@@ -65,23 +65,36 @@ def sufficient_resources(drink_choice):
         return True
 
 user = ''
+options = { # dictionary 
+    '1': 'espresso',
+    '2': 'latte',
+    '3': 'cappuccino',
+    'report': 'report',
+    'off': 'off',
+    'q': 'off'
+}
 while (user != 'q' and user != 'off'):
     print_menu()
     user = input('Make selection: ')
-    # TODO: have users input tied to string so they don't have to type the whole flavor choice
-    drink_choice = user
 
-    if user == 'report': report()
+    drink_choice = options.get(str(user.lower()))
+    #print(drink_choice)
+    if drink_choice == 'report': report()
 
-    elif sufficient_resources(drink_choice):
-        # make drink
-        customer_payment = insert_coins()
-        transaction_successful = confirm_transaction(customer_payment, drink_choice)
+    elif drink_choice in coffee_machine['flavors']:
+        if sufficient_resources(drink_choice):
+            # make drink
+            customer_payment = insert_coins()
+            transaction_successful = confirm_transaction(customer_payment, drink_choice)
 
-        if transaction_successful:
-            make_coffee(drink_choice)
+            if transaction_successful:
+                make_coffee(drink_choice)
 
-    else:
-        print('choose another drink buddy')
+        else:
+            print('Please choose another drink')
     
-print('goodbye')
+    elif drink_choice not in coffee_machine['flavors']:
+        print('Invalid selection.')
+        continue
+    
+print('Goodbye')
